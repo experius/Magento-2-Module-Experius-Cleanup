@@ -1,0 +1,22 @@
+{
+    "name": "experius/module-cleanup",
+    "description": "A Magento 2 module for cleaning up images and data",
+    "authors": [
+    	{
+    		"name": "Experius",
+    		"email": "info@experius.nl"
+    	}
+    ],
+    "minimum-stability": "dev",
+    "require": {
+    	"experius/module-core": "1.0.*"
+	},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Experius\\Cleanup\\": ""
+        }
+    }
+}
