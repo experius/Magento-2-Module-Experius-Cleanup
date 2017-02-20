@@ -57,7 +57,7 @@ class RemoveUnusedMediaCommand extends Command
 
         foreach (new \RecursiveIteratorIterator($directoryIterator) as $file) {
 
-            if (strpos($file, "/cache") !== false || is_dir($file)) {
+            if (strpos($file, "/cache") !== false || strpos($file, "/watermark") || strpos($file, "/placeholder") || is_dir($file)) {
                 continue;
             }
 
