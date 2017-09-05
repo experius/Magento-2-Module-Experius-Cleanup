@@ -62,8 +62,8 @@ class RestoreUseDefaultValueCommand extends Command
             foreach ($rows as $row) {
                 // Select the global value if it's the same as the non-global value
                 $results = $db->fetchAll('SELECT * FROM ' . $fullTableName
-                    . ' WHERE attribute_id = ? AND store_id = ? AND entity_id = ? AND value = ?',
-                    array($row['attribute_id'], 0, $row['entity_id'], $row['value'])
+                    . ' WHERE attribute_id = ? AND store_id = ? AND ' . $this->getFieldName($fullTableName) . ' = ? AND value = ?',
+                    array($row['attribute_id'], 0, $row[$this->getFieldName($fullTableName)], $row['value'])
                 );
 
                 if (count($results) > 0) {
@@ -107,6 +107,23 @@ class RestoreUseDefaultValueCommand extends Command
             }
 
         }
+    }
+
+    /**
+     * @return string
+     */
+    private function getFieldName($fullTableName)
+    {
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        /** @var \Magento\Framework\App\ResourceConnection $db */
+        $resConnection = $objectManager->get('Magento\Framework\App\ResourceConnection');
+        $db = $resConnection->getConnection();
+        $results = $db->fetchAll("SHOW COLUMNS FROM `$fullTableName` LIKE 'entity_id'");
+        if ($results) {
+            return 'entity_id';
+        }
+        $db->closeConnection();
+        return 'row_id';
     }
 
 }

@@ -10,6 +10,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 
 class RemoveNonExistingMediaCommand extends Command
 {
+
     /**
      * Init command
      */
@@ -69,9 +70,9 @@ class RemoveNonExistingMediaCommand extends Command
             $valueRow = $coreRead->fetchRow('
                 SELECT products.sku, mediagallery.value_id FROM ' . $mediaGallery . ' as mediagallery 
                     INNER JOIN ' . $mediaGalleryValue . ' mediagalleryvalue ON mediagallery.value_id = mediagalleryvalue.value_id 
-                    INNER JOIN ' . $productEntityTable . ' products ON products.entity_id = mediagalleryvalue.entity_id
+                    INNER JOIN ' . $productEntityTable . ' products ON products.entity_id = mediagalleryvalue.' . $this->getFieldName($mediaGallery) . '
                     WHERE value = ?', array($file));
-                   
+
             if ($valueRow !== false) {
                 $row = array();
                 $row['sku'] = $valueRow['sku'];
@@ -98,4 +99,22 @@ class RemoveNonExistingMediaCommand extends Command
             ->setRows($table)->render($output);
         $output->writeln("Found " . $fileRows . " records in database where the image did not exist");
     }
+
+    /**
+     * @return string
+     */
+    private function getFieldName($fullTableName)
+    {
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        /** @var \Magento\Framework\App\ResourceConnection $db */
+        $resConnection = $objectManager->get('Magento\Framework\App\ResourceConnection');
+        $db = $resConnection->getConnection();
+        $results = $db->fetchAll("SHOW COLUMNS FROM `$fullTableName` LIKE 'entity_id'");
+        if ($results) {
+            return 'entity_id';
+        }
+        $db->closeConnection();
+        return 'row_id';
+    }
+
 }
