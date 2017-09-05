@@ -7,6 +7,7 @@
                 <item name="config:restore-use-default-value" xsi:type="object">Experius\Cleanup\Console\Command\RestoreUseDefaultConfigValueCommand</item>
                 <item name="media:remove-unused" xsi:type="object">Experius\Cleanup\Console\Command\RemoveUnusedMediaCommand</item>
                 <item name="media:remove-non-existing" xsi:type="object">Experius\Cleanup\Console\Command\RemoveNonExistingMediaCommand</item>
+                <item name="media:remove-gallery-images" xsi:type="object">Experius\Cleanup\Console\Command\RemoveGalleryMediaCommand</item>
             </argument>
         </arguments>
     </type>
