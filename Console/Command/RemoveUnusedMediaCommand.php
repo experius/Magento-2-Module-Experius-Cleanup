@@ -56,6 +56,7 @@ class RemoveUnusedMediaCommand extends Command
 
         foreach (new \RecursiveIteratorIterator($directoryIterator) as $file) {
 
+            // phpcs:ignore
             if (strpos($file, "/cache") !== false || strpos($file, "/watermark") || strpos($file, "/placeholder") || is_dir($file)) {
                 continue;
             }
@@ -69,13 +70,13 @@ class RemoveUnusedMediaCommand extends Command
                 $table[] = $row;
                 $filesize += filesize($file);
                 $countFiles++;
-                echo '## REMOVING: ' . $filePath . ' ##';
+                $output->writeln('## REMOVING: ' . $filePath . ' ##');
                 if (!$isDryRun) {
                     unlink($file);
                 } else {
-                    echo ' -- DRY RUN';
+                    $output->writeln(' -- DRY RUN');
                 }
-                echo PHP_EOL;
+                $output->writeln(PHP_EOL);
                 $i++;
             }
         }

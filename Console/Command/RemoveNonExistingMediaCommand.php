@@ -78,13 +78,13 @@ class RemoveNonExistingMediaCommand extends Command
                 $row['file'] = $file;
                 $table[] = $row;
                 $fileRows++;
-                echo "## REMOVING: {$file}, from product sku: {$valueRow['sku']} ##";
+                $output->writeln("## REMOVING: {$file}, from product sku: {$valueRow['sku']} ##");
                 if (!$isDryRun) {
                     $mediaGalleryResource->deleteGallery($valueRow['value_id']);
                 } else {
-                    echo ' -- DRY RUN';
+                    $output->writeln(' -- DRY RUN');
                 }
-                echo PHP_EOL;
+                $output->writeln(PHP_EOL);
                 $i++;
             }
             break;
