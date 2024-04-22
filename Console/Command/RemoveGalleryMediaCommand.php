@@ -28,6 +28,7 @@ class RemoveGalleryMediaCommand extends Command
      *
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      *
      * @return void;
      */
